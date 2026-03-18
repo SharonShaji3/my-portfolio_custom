@@ -40,4 +40,24 @@ function initNavbar() {
 document.addEventListener('DOMContentLoaded', () => {
   initReveal();
   initNavbar();
+  initSkillPills();
+  /* ============================================================
+   SKILL PILLS — Staggered reveal
+============================================================ */
+function initSkillPills() {
+  const groups = document.querySelectorAll('.skill-group');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const pills = entry.target.querySelectorAll('.skill-pill');
+      pills.forEach((pill, i) => {
+        setTimeout(() => pill.classList.add('visible'), i * 60);
+      });
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.2 });
+
+  groups.forEach((g) => observer.observe(g));
+}
 });
